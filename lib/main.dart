@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'dart:js';
 
-main() {
-}
 
 class FacebookLoginWebPlugin {
 
@@ -23,6 +21,8 @@ class FacebookLoginWebPlugin {
 		switch (call.method) {
 			case 'logIn':
 				return _login();
+			case 'logOut':
+				return _logout();
 			default:
 				throw PlatformException(
 					code: 'Unimplemented',
@@ -31,9 +31,12 @@ class FacebookLoginWebPlugin {
 		}
 	}
 
+	bool _isLoggedIn = false;
+
 	_login() {
 		Completer completer = new Completer();
 		context["FB"].callMethod('login', [ (result) async {
+			_isLoggedIn = true;
 			completer.complete({
 					"status": "loggedIn",
 					"accessToken": {
@@ -46,6 +49,17 @@ class FacebookLoginWebPlugin {
 			});
 		}]);
 		return completer.future;
+	}
 
+	_logout() {
+		if ( !_isLoggedIn ){
+			return Future.value();
+		}
+		Completer completer = new Completer();
+		context["FB"].callMethod('logout', [ (_) async {
+			_isLoggedIn = false;
+			completer.complete();
+		}]);
+		return completer.future;
 	}
 }
