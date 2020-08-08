@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name             = 'flutter_facebook_login_web'
     s.version          = '0.0.1'
-    s.summary          = 'No-op implementation of flutter_facebook_login_web web plugin to avoid build issues on iOS'
+    s.summary          = 'No-op implementation of flutter_facebook_login_web plugin to avoid build issues on iOS'
     s.description      = <<-DESC
   temp fake flutter_facebook_login_web plugin
                          DESC
